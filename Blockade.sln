@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockade", "Blockade\Blockade.csproj", "{BCDC895C-E490-48B3-B223-F6B13A812FA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockadeTest", "BlockadeTest\BlockadeTest.csproj", "{4D4E3A4B-5576-4E96-AADC-0B4CD805AFA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCDC895C-E490-48B3-B223-F6B13A812FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCDC895C-E490-48B3-B223-F6B13A812FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCDC895C-E490-48B3-B223-F6B13A812FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCDC895C-E490-48B3-B223-F6B13A812FA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D4E3A4B-5576-4E96-AADC-0B4CD805AFA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D4E3A4B-5576-4E96-AADC-0B4CD805AFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D4E3A4B-5576-4E96-AADC-0B4CD805AFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D4E3A4B-5576-4E96-AADC-0B4CD805AFA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

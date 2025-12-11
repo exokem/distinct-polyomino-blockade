@@ -59,3 +59,81 @@ This work is licensed under a
 
 
 let players move their pieces around in the dock while they wait
+
+
+```mermaid
+classDiagram
+    class Shape {
+        + Name: string
+        - _relativeCoordinates: List[Vec2]
+
+        + MapPlacementAt(pos: Vec2, transform: ITransform) IEnumerable[Vec2]
+    }
+
+    class Palette {
+        + Name: string
+        + MainColor: Color
+        + Equals()
+    }
+
+    class Player {
+        + Palette: Palette
+        + Name: string
+
+        - _shapes: Dictionary[Shape, ShapeStatus]
+
+    }
+
+    class Grid {
+        - _grid: Palette[][]
+
+        + this[position: Vec2i]: Palette
+    }
+
+    class Game {
+        + ShapeSet: Set[Shape]
+        + Players: Dictionary[Player, bool]
+        - _grid: Grid
+        - _currentPlayer: Player
+
+        + CanPlayerMove(name: string) bool
+        + PlaceShape(position: Vec2, player: Player, shape: Shape, transform: ITransform) bool
+        + IsGameOver() bool
+    }
+
+    class ITransform {
+        << interface >>
+
+        + Apply(point: Vec2, width: int, height: int) Vec2
+    }
+
+
+    class ShapeView {
+        - _shape: List[Vec2]
+        - _transforms: List[ITransform]
+    }
+
+    class DrawerView {
+        - _shapes: Dictionary[Vec2, ShapeView]
+    }
+
+    class IDrawerController {
+        << interface >>
+
+        + Shapes: List[List[Vec2]]
+
+    }
+
+    DrawerView ..> ShapeView : uses
+    DrawerView ..> IDrawerController : uses
+
+    Game ..> IDrawerController : implements
+
+    Game ..> Grid : uses
+    Game ..> Player : uses
+    Player ..> Shape : uses 
+    Game ..> Shape : uses
+    Player ..> Palette : uses
+    Grid ..> Palette : uses
+    Shape ..> ITransform : uses
+```

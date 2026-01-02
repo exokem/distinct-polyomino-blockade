@@ -4,7 +4,7 @@ namespace Blockade;
 
 internal sealed partial class Player
 {
-    public Color Color { get; }
+    public Palette Palette { get; }
     public string Name { get; }
     private readonly Dictionary<Shape, BlockStatus> _blocks = [];
 
@@ -14,9 +14,9 @@ internal sealed partial class Player
         set => _blocks[shape] = value;
     }
 
-    public Player(Color color, string name, Shape[] shapes)
+    public Player(Palette palette, string name, Shape[] shapes)
     {
-        Color = color;
+        Palette = palette;
         Name = name;
 
         foreach (var shape in shapes)

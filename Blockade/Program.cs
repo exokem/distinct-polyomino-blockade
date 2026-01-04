@@ -9,8 +9,8 @@ namespace Blockade
             Raylib.SetTargetFPS(60);
             Raylib.SetConfigFlags(ConfigFlags.FullscreenMode);
             Raylib.InitWindow(0, 0, "Distinct Polyomino Blockade");
-            Player a = new Player(new Palette("A", Color.Black), "A", []);
-            Shape[] shapes = [];
+            Shape[] shapes = [Shape.One, Shape.Three, Shape.Two];
+            Player a = new Player(new Palette("A", Color.Black), "A", shapes);
             Drawer drawer = new Drawer(a, shapes.ToList(), Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
 
             DrawerView drawerView = new(drawer);

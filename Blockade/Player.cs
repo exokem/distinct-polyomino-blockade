@@ -1,5 +1,3 @@
-using System.Drawing;
-
 namespace Blockade;
 
 internal sealed partial class Player

@@ -65,7 +65,7 @@ internal sealed partial class Shape
         _shapes[name] = this;
     }
 
-    public IEnumerable<Vector2Int> MapPlacementAt(Vector2Int position)
+    public List<Vector2Int> MapPlacementAt(Vector2Int position)
     {
         List<Vector2Int> placedPositions = new();
 

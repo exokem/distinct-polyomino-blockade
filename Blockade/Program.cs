@@ -9,7 +9,11 @@ namespace Blockade
             Raylib.SetTargetFPS(60);
             Raylib.SetConfigFlags(ConfigFlags.FullscreenMode);
             Raylib.InitWindow(0, 0, "Distinct Polyomino Blockade");
-            DrawerView drawerView = new();
+            Player a = new Player(new Palette("A", Color.Black), "A", []);
+            Shape[] shapes = [];
+            Drawer drawer = new Drawer(a, shapes.ToList(), Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
+
+            DrawerView drawerView = new(drawer);
 
             while (!Raylib.WindowShouldClose())
             {
@@ -17,7 +21,7 @@ namespace Blockade
                 Raylib.ClearBackground(Color.Black);
 
                 // Draw a box that's fixed to the right hand side of the screen
-                drawerView.Draw(Raylib.GetScreenWidth(), Raylib.GetScreenHeight()); 
+                drawerView.Draw(); 
 
                 Raylib.DrawText("Hello, Blockade!", 10, 10, 20, Color.White);
 

@@ -28,6 +28,9 @@ namespace Blockade
             List<DrawerShape> drawerShapes = [];
             Rectangle blockArea = GetBlocksAreaDimensions();
             Vector2Int position = new Vector2Int(0, 0);
+            int yOffset = 0;
+            int xOffset = 0;
+            int maxHeightInRow = 0;
 
             for (int i = 0; i < _shapes.Count; i++)
             {
@@ -35,18 +38,29 @@ namespace Blockade
                 List<Rectangle> blockRectangles = [];
                 List<Vector2Int> positions = shape.MapPlacementAt(position);
 
+                int remainingWidth = blockArea.Width - 2 * CONTAINER_PADDING - xOffset;
+                if (remainingWidth < BLOCK_SIZE * shape.Dimensions.Width)
+                {
+                    xOffset = 0;
+                    yOffset += maxHeightInRow + CONTAINER_PADDING;
+                }
+
+                maxHeightInRow = Math.Max(maxHeightInRow, shape.Dimensions.Height * BLOCK_SIZE);
+
                 foreach (Vector2Int pos in positions)
                 {
                     Rectangle blockRect = new Rectangle(
-                        blockArea.X + CONTAINER_PADDING + pos.X * BLOCK_SIZE,
-                        blockArea.Y + CONTAINER_PADDING + pos.Y * BLOCK_SIZE + (i * (CONTAINER_PADDING + BLOCK_SIZE)),
+                        blockArea.X + CONTAINER_PADDING + pos.X * BLOCK_SIZE + xOffset,
+                        blockArea.Y + CONTAINER_PADDING + pos.Y * BLOCK_SIZE + yOffset,
                         BLOCK_SIZE,
                         BLOCK_SIZE,
                         Color.Gray
                     );
+
                     blockRectangles.Add(blockRect);
                 }
 
+                xOffset += BLOCK_SIZE * shape.Dimensions.Width + CONTAINER_PADDING;
                 drawerShapes.Add(new DrawerShape(shape, blockRectangles));
             }
 

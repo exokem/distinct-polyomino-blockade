@@ -6,7 +6,13 @@ namespace Blockade
     {
         private static void DrawRectange(Rectangle rectangle)
         {
-            Raylib.DrawRectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, rectangle.Color);
+            Raylib.DrawRectangle(
+                rectangle.X,
+                rectangle.Y, 
+                rectangle.Width, 
+                rectangle.Height, 
+                rectangle.Color
+            );
         }
 
         private static void DrawText(Text text)
@@ -26,8 +32,16 @@ namespace Blockade
             DrawerView.DrawRectange(drawer.GetDrawerDimensions());
             DrawerView.DrawRectange(drawer.GetScoreAreaDimensions());
             DrawerView.DrawRectange(drawer.GetBlocksAreaDimensions());
-
             DrawerView.DrawText(drawer.GetScoreText());
+
+            List<DrawerShape> drawerShapes = drawer.GetDrawerShapes();
+            foreach (DrawerShape drawerShape in drawerShapes)
+            {
+                foreach (Rectangle block in drawerShape.Blocks)
+                {
+                    DrawerView.DrawRectange(block);
+                }
+            }
         }
     }
 }

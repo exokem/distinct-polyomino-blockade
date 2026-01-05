@@ -12,6 +12,7 @@ namespace Blockade
         private static readonly int CONTAINER_PADDING = 10;
         private static readonly int TEXT_FONT_SIZE = 20;
         private static readonly Color TEXT_COLOR = Color.Black;
+        private static readonly int BLOCK_SIZE = 40;
 
         private readonly Player _player;
         private readonly List<Shape> _shapes;
@@ -20,12 +21,46 @@ namespace Blockade
         private int DrawerX => _screenWidth - DRAWER_WIDTH;
         private int DrawerY => 0;
 
+        private readonly List<DrawerShape> _drawerShapes;
+
+        private List<DrawerShape> DetermineBlockPositions()
+        {
+            List<DrawerShape> drawerShapes = [];
+            Rectangle blockArea = GetBlocksAreaDimensions();
+            Vector2Int position = new Vector2Int(0, 0);
+
+            for (int i = 0; i < _shapes.Count; i++)
+            {
+                Shape shape = _shapes[i];
+                List<Rectangle> blockRectangles = [];
+                List<Vector2Int> positions = shape.MapPlacementAt(position);
+
+                foreach (Vector2Int pos in positions)
+                {
+                    Rectangle blockRect = new Rectangle(
+                        blockArea.X + CONTAINER_PADDING + pos.X * BLOCK_SIZE,
+                        blockArea.Y + CONTAINER_PADDING + pos.Y * BLOCK_SIZE + (i * (CONTAINER_PADDING + BLOCK_SIZE)),
+                        BLOCK_SIZE,
+                        BLOCK_SIZE,
+                        Color.Gray
+                    );
+                    blockRectangles.Add(blockRect);
+                }
+
+                drawerShapes.Add(new DrawerShape(shape, blockRectangles));
+            }
+
+            return drawerShapes;
+        }
+
         public Drawer(Player player, List<Shape> shapes, int screenWidth, int screenHeight)
         {
             _player = player;
             _shapes = shapes;
             _screenWidth = screenWidth;
             _screenHeight = screenHeight;
+
+            _drawerShapes = DetermineBlockPositions();
         }
 
         public Rectangle GetDrawerDimensions()
@@ -73,6 +108,11 @@ namespace Blockade
                 boxYEnd - CONTAINER_PADDING,
                 TEXT_COLOR
             );
+        }
+
+        public List<DrawerShape> GetDrawerShapes()
+        {
+            return _drawerShapes;
         }
     }
 }

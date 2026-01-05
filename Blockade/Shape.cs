@@ -56,6 +56,28 @@ internal sealed partial class Shape
     private readonly List<Vector2Int> _shape = new();
 
     public string Name { get; }
+    public Dimension Dimensions { get; }
+
+    private Dimension DetermineDimensions()
+    {
+        int maxX = int.MinValue;
+        int maxY = int.MinValue;
+        int minX = int.MaxValue;
+        int minY = int.MaxValue;
+
+        foreach (Vector2Int pos in _shape)
+        {
+            if (pos.X > maxX) maxX = pos.X;
+            if (pos.Y > maxY) maxY = pos.Y;
+            if (pos.X < minX) minX = pos.X;
+            if (pos.Y < minY) minY = pos.Y;
+        }
+
+        return new Dimension(
+            Width: maxX - minX + 1,
+            Height: maxY - minY + 1
+        );
+    }
 
     Shape(string name, List<Vector2Int> shape)
     {
@@ -63,6 +85,7 @@ internal sealed partial class Shape
 
         _shape = shape;
         _shapes[name] = this;
+        Dimensions = DetermineDimensions();
     }
 
     public List<Vector2Int> MapPlacementAt(Vector2Int position)

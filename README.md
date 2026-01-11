@@ -84,6 +84,12 @@ classDiagram
 
     }
 
+    class IView {
+        << interface >>
+
+        + Draw(pos: Vec2) void
+    }
+
     class Grid {
         - _grid: Palette[][]
 
@@ -117,6 +123,17 @@ classDiagram
         - _shapes: Dictionary[Vec2, ShapeView]
     }
 
+    class GridView {
+
+    }
+
+    class IGridController {
+        << interface >>
+
+        + Size: Vec2i
+        + GetPaletteAt(position: Vec2i) Palette
+    }
+
     class IDrawerController {
         << interface >>
 
@@ -126,14 +143,19 @@ classDiagram
 
     DrawerView ..> ShapeView : uses
     DrawerView ..> IDrawerController : uses
+    DrawerView ..> IView : implements
 
     Game ..> IDrawerController : implements
 
     Game ..> Grid : uses
     Game ..> Player : uses
-    Player ..> Shape : uses 
+    Player ..> Shape : uses
     Game ..> Shape : uses
     Player ..> Palette : uses
     Grid ..> Palette : uses
     Shape ..> ITransform : uses
+
+    Grid ..> IGridController : implements
+    GridView ..> IGridController : uses
+    GridView ..> IView : uses
 ```

@@ -14,9 +14,9 @@ public class Program
         Raylib.SetTargetFPS(60);
         Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
         Raylib.InitWindow(width, height, "Distinct Polyomino Blockade");
-        Shape[] shapes = Shape.All.ToArray();
+        var shapes = Shape.All.ToArray();
         Player a = new Player(new Palette("A", Color.Black), "A", shapes);
-        Drawer drawer = new Drawer(a, shapes.ToList(), Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
+        Drawer drawer = new Drawer(a, shapes.ToList());
 
         DrawerView drawerView = new(drawer);
 

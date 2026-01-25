@@ -113,6 +113,8 @@ internal sealed partial class Shape
     public int Width => Size.X;
     public int Height => Size.Y;
 
+    public int Tiles => _shape.Count;
+
     // Shape(string name, List<Vec2i> shape)
     // {
     //     Name = name;

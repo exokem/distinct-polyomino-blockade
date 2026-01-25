@@ -5,27 +5,11 @@ namespace Blockade.View;
 
 internal class DrawerView : IView
 {
-    private static void DrawRectange(Rectangle rectangle)
-    {
-        Raylib.DrawRectangle(
-            rectangle.X,
-            rectangle.Y,
-            rectangle.Width,
-            rectangle.Height,
-            rectangle.Color
-        );
-    }
-
-    private static void DrawText(Text text)
-    {
-        Raylib.DrawText(text.Content, text.X, text.Y, text.FontSize, text.Color);
-    }
-
-    private readonly Drawer drawer;
+    readonly Drawer _drawer;
 
     public DrawerView(Drawer drawer)
     {
-        this.drawer = drawer;
+        _drawer = drawer;
     }
 
     public void Draw(ref Rec2i area)
@@ -33,29 +17,29 @@ internal class DrawerView : IView
         // Outer rect
         area.RenderFilled(Color.White);
 
-        var contentArea = drawer.GetContentArea(ref area);
+        var contentArea = _drawer.GetContentArea(ref area);
 
         // Score
-        var scoreArea = drawer.GetScoreArea(ref contentArea);
+        var scoreArea = _drawer.GetScoreArea(ref contentArea);
         scoreArea.RenderFilled(Color.LightGray);
-        drawer.GetScoreString().Render(scoreArea.Position().Offset(drawer.InteriorPadding, drawer.InteriorPadding), drawer.FontSize, Color.Black);
+        _drawer.GetScoreString().Render(scoreArea.Position().Offset(Drawer.InteriorPadding, Drawer.InteriorPadding), Drawer.FontSize, Color.Black);
 
         // Shapes
-        var shapeArea = drawer.GetShapeArea(ref contentArea);
+        var shapeArea = _drawer.GetShapeArea(ref contentArea);
         shapeArea.RenderFilled(Color.LightGray);
-        shapeArea = shapeArea.Shrink(drawer.TileGap, drawer.TileGap);
+        shapeArea = shapeArea.Shrink(Drawer.TileGap, Drawer.TileGap);
 
 
-        var (gridSize, gridArea) = drawer.GetGridArea(ref shapeArea);
+        var (gridSize, gridArea) = _drawer.GetGridArea(ref shapeArea);
 
         int rx = gridArea.X, ry = gridArea.Y;
 
-        foreach (var tile in drawer.GetTileAreas(gridSize, gridArea))
+        foreach (var tile in _drawer.GetTileAreas(gridSize, gridArea))
         {
             tile.RenderFilled(Color.White);
         }
 
-        foreach (var tile in drawer.GetFilledTileAreas(gridSize, gridArea))
+        foreach (var tile in _drawer.GetFilledTileAreas(gridSize, gridArea))
         {
             tile.RenderFilled(Color.Red);
         }

@@ -1,34 +1,45 @@
-﻿using Raylib_cs;
+﻿using Blockade.Math;
+using Blockade.View;
+using Raylib_cs;
 
-namespace Blockade
+namespace Blockade;
+
+public class Program
 {
-    public class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        var width = 1920;
+        var height = 1080;
+
+        Raylib.SetTargetFPS(60);
+        Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
+        Raylib.InitWindow(width, height, "Distinct Polyomino Blockade");
+        Shape[] shapes = [Shape.One, Shape.Three, Shape.Two];
+        Player a = new Player(new Palette("A", Color.Black), "A", shapes);
+        Drawer drawer = new Drawer(a, shapes.ToList(), Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
+
+        DrawerView drawerView = new(drawer);
+
+        while (!Raylib.WindowShouldClose())
         {
-            Raylib.SetTargetFPS(60);
-            Raylib.SetConfigFlags(ConfigFlags.FullscreenMode);
-            Raylib.InitWindow(0, 0, "Distinct Polyomino Blockade");
-            Shape[] shapes = [Shape.One, Shape.Three, Shape.Two];
-            Player a = new Player(new Palette("A", Color.Black), "A", shapes);
-            Drawer drawer = new Drawer(a, shapes.ToList(), Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
+            width = Raylib.GetScreenWidth();
+            height = Raylib.GetScreenHeight();
 
-            DrawerView drawerView = new(drawer);
+            Raylib.BeginDrawing();
+            Raylib.ClearBackground(Color.Black);
 
-            while (!Raylib.WindowShouldClose())
-            {
-                Raylib.BeginDrawing();
-                Raylib.ClearBackground(Color.Black);
+            // Draw a box that's fixed to the right hand side of the screen
 
-                // Draw a box that's fixed to the right hand side of the screen
-                drawerView.Draw(); 
+            var drawerWidth = width / 3;
+            Rec2i drawerArea = new(width - drawerWidth, 0, drawerWidth, height);
 
-                Raylib.DrawText("Hello, Blockade!", 10, 10, 20, Color.White);
+            drawerView.Draw(ref drawerArea);
 
-                Raylib.EndDrawing();
-            }
-            
-            Raylib.CloseWindow();
+            Raylib.DrawText("Hello, Blockade!", 10, 10, 20, Color.White);
+
+            Raylib.EndDrawing();
         }
+
+        Raylib.CloseWindow();
     }
 }

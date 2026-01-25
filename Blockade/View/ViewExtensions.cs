@@ -5,10 +5,10 @@ namespace Blockade.View;
 
 public static class ViewExtensions
 {
-    public static void RenderFilled(this ref Rec2i rect, Color color)
+    public static void RenderFilled(this Rec2i rect, Color color)
         => Raylib.DrawRectangle(rect.X, rect.Y, rect.W, rect.H, color);
 
-    public static void RenderOutlined(this ref Rec2i rect, Color color)
+    public static void RenderOutlined(this Rec2i rect, Color color)
         => Raylib.DrawRectangleLines(rect.X, rect.Y, rect.W, rect.H, color);
 
     public static void Render(this string s, int x, int y, int size, Color color)

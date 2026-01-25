@@ -46,20 +46,18 @@ internal class DrawerView : IView
         shapeArea = shapeArea.Shrink(drawer.TileGap, drawer.TileGap);
 
 
-        var (gridDimensions, gridArea) = drawer.GetGridArea(ref shapeArea);
+        var (gridSize, gridArea) = drawer.GetGridArea(ref shapeArea);
 
         int rx = gridArea.X, ry = gridArea.Y;
 
-        for (var x = 0; x < gridDimensions.X; x++)
+        foreach (var tile in drawer.GetTileAreas(gridSize, gridArea))
         {
-            ry = gridArea.Y;
-            for (var y = 0; y < gridDimensions.Y; y++)
-            {
-                Raylib.DrawRectangle(rx, ry, drawer.TileSize, drawer.TileSize, Color.White);
-                ry += drawer.TileSize + drawer.TileGap;
-            }
+            tile.RenderFilled(Color.White);
+        }
 
-            rx += drawer.TileSize + drawer.TileGap;
+        foreach (var tile in drawer.GetFilledTileAreas(gridSize, gridArea))
+        {
+            tile.RenderFilled(Color.Red);
         }
     }
 }

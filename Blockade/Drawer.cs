@@ -32,7 +32,7 @@ namespace Blockade
 
         int ScoreAreaHeight => FontSize + 2 * InteriorPadding;
 
-        public (Vec2i tileDimensions, Rec2i area) GetGridArea(ref Rec2i area)
+        public (Vec2i gridSize, Rec2i gridArea) GetGridArea(ref Rec2i area)
         {
             var tilesWide = 3;
 
@@ -191,9 +191,83 @@ namespace Blockade
             return _drawerShapes;
         }
 
-        // public IEnumerable<List<DrawerShape2>> GetShapeRows()
+        private Rec2i MapTileToRect(ref Rec2i gridArea, int tx, int ty) => new()
+        {
+            X = gridArea.X + tx * (TileSize + TileGap),
+            Y = gridArea.Y + ty * (TileSize + TileGap),
+            W = TileSize,
+            H = TileSize,
+        };
+
+        public IEnumerable<Rec2i> GetTileAreas(Vec2i gridSize, Rec2i gridArea)
+        {
+            for (var x = 0; x < gridSize.X; x++)
+            {
+                for (var y = 0; y < gridSize.Y; y++)
+                {
+                    yield return MapTileToRect(ref gridArea, x, y);
+                }
+            }
+        }
+
+        public IEnumerable<Rec2i> GetFilledTileAreas(Vec2i gridSize, Rec2i gridArea)
+        {
+            // Grid coords
+            int tx = 0, ty = 0;
+
+            int rowHeight = 0;
+
+            // TODO: mutable shapes list
+            foreach (var shape in _shapes)
+            {
+                if (gridSize.X < tx + shape.Width)
+                {
+                    tx = 0;
+                    ty += rowHeight + 1;
+                    rowHeight = 0;
+                }
+
+                foreach (var pos in shape.MapPlacementAt(new(tx, ty)))
+                {
+                    yield return MapTileToRect(ref gridArea, pos.X, pos.Y);
+                }
+
+                tx += shape.Width + 1;
+                rowHeight = System.Math.Max(rowHeight, shape.Height);
+            }
+        }
+
+
+        // public IEnumerable<(List<List<Rec2i>> shapes, int height)> GetShapeRows(int tilesWide, int tilesHigh)
         // {
+        //     List<List<Rec2i>> row = [];
+        //     var width = 0;
+        //     var height = 0;
         //
+        //     foreach (var shape in _shapes)
+        //     {
+        //         if (width == 0)
+        //         {
+        //             row.Add(new(shape));
+        //             height = System.Math.Max(shape.Height, height);
+        //             width += shape.Width;
+        //         }
+        //
+        //         else if (tilesWide < width + 1 + shape.Width)
+        //         {
+        //             yield return (row, height);
+        //             row = [new(shape)];
+        //             height = shape.Height;
+        //             width = shape.Width;
+        //         }
+        //
+        //         else
+        //         {
+        //             row.Add(new(shape));
+        //             height = System.Math.Max(shape.Height, height);
+        //             width += shape.Width + 1;
+        //         }
+        //     }
         // }
     }
 }
